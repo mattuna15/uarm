@@ -44,6 +44,9 @@ while True:
 				info = str(swift.get_device_info())
 				print('sending response: {}'.format(str(info)))
 				connection.sendall(bytes(info,'utf-8'))
+			elif data == 'reset':
+				swift.reset()
+				connection.sendall(bytes('OK','utf-8'))
 			else:
 				break
 	finally:
