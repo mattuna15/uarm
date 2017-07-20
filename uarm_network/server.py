@@ -22,14 +22,26 @@ sleep(2)
 print('device info: ')
 print(swift.get_device_info())
 
-s = socket.socket()
+sock = socket.socket()
 host = '192.168.0.27' #ip of raspberry pi
 port = 12345
-s.bind((host, port))
-
-s.listen(5)
+sock.bind((host, port))
+sock.listen(5)
 while True:
-  c, addr = s.accept()
-  print ('Got connection from',addr)
-  c.send(bytes('Thank you for connecting','utf-8'))
-  c.close()
+	print('waiting for a connection')
+	connection, client_address = sock.accept()
+	try:
+		print('client connected: {}'.format(client_address))
+		while True:
+			data = connection.recv(16).decode()
+			print('received {}"'.format(str(data)))
+			if data == 'position':
+				position = swift.get_position()                
+				positionResponse = 'x: {:03.2f}, y: {:03.2f}, z: {:03.2f}'.format(position[0],position[1],position[2])
+				print('sending response: {}'.format(str(positionResponse)))
+				connection.sendall(bytes(positionResponse,'utf-8'))
+			else:
+				break
+	finally:
+		connection.close()
+
