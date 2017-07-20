@@ -4,7 +4,7 @@ import serial
 import sys, os
 from time import sleep
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'pyuf'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../pyuf'))
 
 from uf.wrapper.swift_api import SwiftAPI
 from uf.utils.log import *
