@@ -40,6 +40,10 @@ while True:
 				positionResponse = 'x: {:03.2f}, y: {:03.2f}, z: {:03.2f}'.format(position[0],position[1],position[2])
 				print('sending response: {}'.format(str(positionResponse)))
 				connection.sendall(bytes(positionResponse,'utf-8'))
+			elif data == 'info':
+				info = str(swift.get_device_info())
+				print('sending response: {}'.format(str(info)))
+				connection.sendall(bytes(info,'utf-8'))
 			else:
 				break
 	finally:
